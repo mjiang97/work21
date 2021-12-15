@@ -24,14 +24,10 @@ int server_handshake(int *to_client) {
     *to_client = open(f, O_WRONLY);
 
     printf("writing to client...\n");
-    write(*to_client, ACK, sizeof(ACK));
+    write(*to_client, "to client", sizeof(f));
 
     printf("receiving from client...\n");
     read(from_client, f, sizeof(f));
-
-    printf("received.\n");
-    remove(ACK);
-    printf("removed pipes.\n");
 
     return from_client;
 }
@@ -62,8 +58,8 @@ int client_handshake(int *to_server) {
     read(from_server, f, sizeof(f));
     remove(ACK);
 
-    printf("sending response...\n", f);
-    write(*to_server, f, sizeof(f));
+    printf("sending response...%s\n", f);
+    write(*to_server, "to server", sizeof(f));
 
     return from_server;
 }
